@@ -20,18 +20,23 @@ public class ApiController {
             return invalidInput();
         }
 
+//     trim the whitespace
         String trimmedName = name.trim();
         if(trimmedName.isEmpty()) {
             return invalidInput();
         }
 
+//        select the first char of name
         char first = trimmedName.charAt(0);
 
+//        validate the first latter as Ascii
         if(!isAsciiLetter(first)) {
             return invalidInput();
         }
 
+//        Changed the first letter as UniformCharacter
         char uniformCharacter = Character.toUpperCase(first);
+//        Checked the first letter as required character
         if(uniformCharacter >= 'A' && uniformCharacter <= 'M') {
             String formatted = capitalizeName(trimmedName);
             return ResponseEntity.ok(new ApiMessageResponse("Hello " + formatted));
@@ -41,16 +46,19 @@ public class ApiController {
 
     }
 
+//    Validate Name have only Ascii Letters
     private boolean isAsciiLetter(char c) {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 
+//    Error message if requirement fail
     private ResponseEntity<ApiErrorResponse> invalidInput() {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ApiErrorResponse("Invalid Input"));
     }
 
+//    Capitalize the first letter of the name and balance letter changed as small
     private String capitalizeName(String raw) {
         if (raw.isEmpty())
             return raw;
